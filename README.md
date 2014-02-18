@@ -1,4 +1,4 @@
-sistema-usuario-otro
+Sistema usuario con otras teconologías
 ====================
 
-Es otra versión del sistema de usuario, pero usando MongoDB con Mongoose.js y renderizando con Express y Jade y otras librerias.
+Es otra versión del sistema de usuario que vengo trabajando, pero usando MongoDB con Mongoose.js y renderizando páginas con Express y Jade y otras librerias.
