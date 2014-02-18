@@ -46,7 +46,7 @@ if ('development' == app.get('env')) {
 }
 
 var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Servidor Express escuchando en puerto ' + app.get('port'));
+  console.log('Servidor escuchando en puerto ' + app.get('port'));
 });
 var clients = [];
 var io = require('socket.io').listen(server, {log: false});
