@@ -1,5 +1,4 @@
 var mongoose = require('mongoose');
-	//mongodb://asopagos:thomas2020@ds027509.mongolab.com:27509/asopagos
 	var db = mongoose.createConnection('mongodb://localhost/asopagos')
 	db.on('error', console.log.bind(console, 'Error de conexión:'))
 	db.once('connected', function callback () {
