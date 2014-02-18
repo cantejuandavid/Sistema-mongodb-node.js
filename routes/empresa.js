@@ -72,13 +72,10 @@ exports.editEmpresa = function(req, res) {
 	})
 }
 exports.saveEmpresa = function(req, res) {
-	var id = req.params.id
-	console.log(id)
-	console.log(req.body)
+	var id = req.params.id	
 	Empresa.findByIdAndUpdate(id, req.body, function(err, doc) {
 		if(doc){
-			res.send('saved')
-			console.log(doc)
+			res.send('saved')			
 		}
 		else
 			res.render('404', {title: 'Esta empresa no existe'})
