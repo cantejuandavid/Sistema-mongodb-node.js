@@ -1,0 +1,89 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptViewEmpresas.js')
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	script(src="/librerias/moment/moment.js")
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1= emp.name
+		a(href="./", id="linkAtras").btn.btn-primary.btn-xs <i class="glyphicon glyphicon-circle-arrow-left"></i> Atrás
+		.contenedorTableEmpresas
+			.row
+				.col-sm-6.col-md-offset-3.well
+					form(id="viewEmpresa", method="post", action="",role="form").form-horizontal
+						.form-group
+							label.col-sm-2.control-label Nit
+							.col-sm-10
+								input(type="text", name="nit", value="#{emp.nit}").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Teléfono
+							.col-sm-10
+								input(type="text", value="#{emp.phone}", name="phone").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Dirección
+							.col-sm-10
+								input(type="text", value="#{emp.address}", name="address").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Estado
+							.col-sm-10
+								select(name="state").form-control.input-sm
+									option(value="#{emp.state}") #{emp.state==true? 'Activo': 'Eliminado'}
+									option(value="#{emp.state==true? 'false':'true'}") #{emp.state==true? 'Eliminado':'Activo'}
+						.form-group
+								label.col-sm-2.control-label E-mail
+								.col-sm-10
+									input(type="email", name="email", value="#{emp.email}").form-control.input-sm
+						.col-sm-4
+							.panel
+								.panel-heading Claves Aportes										
+								.panel-body
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Usuario", name="userNom", value="#{emp.userNom}").form-control.input-sm
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Contraseña", name="passNom", value="#{emp.passNom}").form-control.input-sm
+						.col-sm-4
+							.panel
+								.panel-heading Claves EPS										
+								.panel-body
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Usuario", name="userEps", value="#{emp.userEps}").form-control.input-sm
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Contraseña", name="passEps", value="#{emp.passEps}").form-control.input-sm
+						.col-sm-4
+							.panel
+								.panel-heading Claves ARL										
+								.panel-body
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Usuario", name="userArl", value="#{emp.userArl}").form-control.input-sm
+									.form-group
+										.col-sm-12
+											input(type="text", placeholder="Contraseña", name="passArl", value="#{emp.passArl}").form-control.input-sm
+						.form-group
+							.col-sm-offset-4.col-sm-10
+								button(type="submit").btn.btn-success <i class="glyphicon glyphicon-ok"></i> Guardar
+								button(type="button", id="delete").btn.btn-danger <i class="glyphicon glyphicon-trash"></i> Eliminar
+			script.
+				var a = !{JSON.stringify(emp)};
+				console.log(a)
+				$('#viewEmpresa').submit(function(e){
+					e.preventDefault()					
+					console.log($(this).serialize())	
+					$.post('./save', $(this).serialize(), function(e){
+						window.location = '../'						
+					})
+				})
+				$("#delete").click(function(){					
+					console.log(a._id)
+					$.post('./delete', a._id, function(data){
+						console.log(data)
+						window.location = '../'	
+					})
+				})
+				
+						

@@ -1,0 +1,86 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptViewEmpresas.js')
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	script(src="/librerias/moment/moment.js")
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1= trab.first_name + " " + trab.last_name
+		a(href="", id="linkAtras") <h4> <i class="glyphicon glyphicon-chevron-left"></i> Atrás</h4>
+		.contenedorTableEmpresas
+			.row
+				.col-sm-6.col-md-offset-3.well
+					form(id="formViewTrabajador", method="post", action="./#{trab._id}/save",role="form").form-horizontal
+						.form-group
+							label.col-sm-2.control-label Cédula
+							.col-sm-10
+								input(type="text", value="#{trab.ced}", name="ced").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Teléfono
+							.col-sm-10
+								input(type="text", value="#{trab.phone}", name="phone").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Dirección
+							.col-sm-10
+								input(type="text", value="#{trab.address}", name="address").form-control.input-sm
+						.form-group
+							label.col-sm-2.control-label Creación
+							.col-sm-10
+								p.form-control-static
+									script.
+										var l = !{JSON.stringify(trab)};	
+										var f = moment(l.fCreation).lang('es').format('L')
+										document.write(f)
+						.form-group
+							label.col-sm-2.control-label Estado
+							.col-sm-10
+								select(name="state").form-control.input-sm
+									option(value="#{trab.state}") #{trab.state==true? 'Activo': 'Eliminado'}
+									option(value="#{trab.state==true? 'false':'true'}") #{trab.state==true? 'Eliminado':'Activo'}
+						.form-group
+							label.col-sm-2.control-label Empresa
+							.col-sm-10
+								select(id="inputEmpresa", name="rEmp_id").form-control.input-sm
+								button(type="button", id="litarTodas").btn.btn-default.btn-xs <i class="glyphicon glyphicon-list-alt"></i> Listar Todas
+						.form-group
+							.col-sm-offset-5.col-sm-10
+								button(type="submit",data-loading-text="Cargando...").btn.btn-success <i class="glyphicon glyphicon-ok"></i> Guardar
+								button(type="button", id="delete",data-loading-text="Cargando...").btn.btn-danger <i class="glyphicon glyphicon-trash"></i> Eliminar								
+			script.
+				var a = !{JSON.stringify(trab)};
+				var d = JSON.parse(!{JSON.stringify(trab.rEmp_id)})
+				$('#inputEmpresa').append("<option value="+d.id+">"+d.name+"</option>")
+				$("#linkAtras").click(function(e){
+					e.preventDefault()
+					window.history.back()
+				})
+				$("#litarTodas").click(function(e) {
+					$(this).fadeOut(function(){$(this).remove()})
+					$.post('./'+a._id+'/listarEmpresas', function(data){	
+						delete data[d.id]	
+						for(i in data)		
+							$('#inputEmpresa').append("<option value="+data[i]._id+">"+data[i].name+"</option>")
+						$("#inputEmpresa").focus()	
+					})
+				})		
+				$('#formViewTrabajador').submit(function(e){
+					e.preventDefault()
+					var btn = $(this).find('button[type=submit]')
+					btn.button('loading')				
+					$.post('./'+a._id+'/save', $(this).serialize(), function(e){						
+						btn.button('reset')
+						window.location = '../empresas/'+d.id
+					})
+				})
+				$("#delete").click(function(){
+					var btn = $(this)
+					btn.button('loading')					
+					$.post('./'+a._id+'/delete', a._id, function(data){						
+						btn.button('reset')	
+						window.location = '../empresas/'+d.id
+					})
+				})
+
+				
+						

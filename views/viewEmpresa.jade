@@ -1,0 +1,80 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptViewEmpresas.js')
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	script(src="/librerias/moment/moment.js")
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1= emp.name
+		a(href="/empresas/") <h4> <i class="glyphicon glyphicon-chevron-left"></i> Atrás</h4>
+		.contenedorTableEmpresas
+			table(id="tableEmpresas", class="display tableEmp")
+				thead
+					tr
+						th Nit
+						th Telefono
+						th Direccion
+						th Creación
+						th N empleados
+						th Opciones
+				tbody
+						tr
+							td #{emp.nit}
+							td #{emp.phone}
+							td #{emp.address}
+							td
+								script(type='text/javascript').
+									var l = !{JSON.stringify(emp)};	
+									var f = moment(l.fCreation).lang('es').format('L')
+									document.write(f)									
+							td #{emp.numEmpleados}
+							td: a(href="/empresas/#{emp._id}/edit").btn.btn-default.btn-xs Editar
+			br
+			h2
+				span Trabajadores 
+				a(href="/empresas/"+ emp._id+"/createTrabajador/", class="btn btn-success") <i class="glyphicon glyphicon-plus"></i> Añadir
+			br
+			
+			table(id="tableTrabajadores", class="display tableEmp table table-responsive")
+				thead
+					tr
+						th n
+						th Cédula
+						th Nombres
+						th Apellidos
+						th Teléfono
+						th Dirección
+						th Estado						
+						th O
+				tbody
+					each item in trab						
+						tr(class="#{item.state==true? '': 'danger'}")
+							td
+							td #{item.ced}
+							td #{item.first_name}
+							td #{item.last_name}
+							td #{item.phone}
+							td #{item.address}
+							if(item.state == false)
+								td Eliminado
+							else
+								td Activo							
+							td
+								.btn-group
+									a(class="btn btn-default btn-xs dropdown-toggle",data-toggle="dropdown")
+										span.glyphicon.glyphicon-tasks
+									ul(role="menu").dropdown-menu
+										li: a(href="/trabajador/"+item._id) <span class="glyphicon glyphicon-edit"></span> Ver
+										li(id="liDelete", data-id=""+item._id): a(href="") <span class="glyphicon glyphicon-trash"></span> Eliminar
+
+			script.
+				var a = !{JSON.stringify(trab)};	
+				$("#liDelete a").on('click',function(e){
+					e.preventDefault()					
+					var id = $(this).parent().attr('data-id')					
+					$.post('/trabajador/'+id+'/delete', '',function(e){						
+						document.location.reload(true)					
+						})
+				})			
+						

@@ -1,0 +1,23 @@
+doctype html
+html
+	head
+		title= title
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, height=device-height maximum-scale=1")
+		meta(name="robots", content="index,follow")
+		link(rel="shortcut icon", href="images/icons/Ypf-Transformers-Overlay-shortcut.ico")
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/librerias/bootstrap/css/bootstrap.css')
+		script(src='/librerias/jquery/jquery.js')
+		script(src='/socket.io/socket.io.js')
+		script(src='/javascripts/layout.js')
+		script(src='/librerias/bootstrap/js/bootstrap.js')
+	body
+		.bloqueLeft
+			h4 Navegación
+			ul
+				li: a(href="/") <i class="glyphicon glyphicon-home"></i> Inicio
+				li: a(href="/empresas") <i class="glyphicon glyphicon-file"></i> Empresas
+				li: a(href="/trabajador") <i class="glyphicon glyphicon-th-list"></i> Trabajadores
+				li: a(href="") <i class="glyphicon glyphicon-search"></i> Consulta
+		block content

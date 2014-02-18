@@ -1,0 +1,54 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptViewEmpresas.js')
+	script(src='http://datatables.net/download/build/nightly/jquery.dataTables.js')
+	link(href="http://datatables.net/download/build/nightly/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1= "Añadir Trabajador"
+		a(href="../", class="btn btn-primary btn-xs") <i class="glyphicon glyphicon-circle-arrow-left"></i> Atrás 		
+		.row
+			.col-sm-6.col-md-offset-3.well
+				form(id="createTrabajador", method="post", action="./",role="form").form-horizontal
+					.form-group
+						label.col-sm-2.control-label Cédula
+						.col-sm-10
+							input(type="text", placeholder="Cédula", id="ced", name="ced", required).form-control.input-sm
+					.form-group
+						label.col-sm-2.control-label Nombre
+						.col-sm-10
+							input(type="text", placeholder="Nombre", id="first_name", name="first_name", required).form-control.input-sm
+					.form-group
+						label.col-sm-2.control-label Apellidos
+						.col-sm-10
+							input(type="text", placeholder="Apellidos", id="last_name", name="last_name", required).form-control.input-sm
+					.form-group
+						label.col-sm-2.control-label Teléfono
+						.col-sm-10
+							input(type="text", placeholder="Teléfono", id="phone", name="phone", required).form-control.input-sm
+					.form-group
+						label.col-sm-2.control-label Dirección
+						.col-sm-10
+							input(type="text", placeholder="Teléfono", id="address", name="address", required).form-control.input-sm
+					.form-group
+						label.col-sm-2.control-label Empresa
+						.col-sm-10
+							p.form-control-static #{nameEmpresa}
+					.form-group
+						.col-sm-offset-5.col-sm-10
+							button(type="submit").btn.btn-success <i class="glyphicon glyphicon-ok"></i> Crear						
+		script.
+			$("#createTrabajador").submit(function(e){
+				e.preventDefault()				
+				if($("#id").val() != '' && $("#first_name").val() != '' && $("#last_name").val() != '' && $("#phone").val() != '' && $("#address").val() != '')
+					$.post("./", $(this).serialize() , function(d){
+						if(d!='e'){
+							console.log(d)
+							window.location = '../'
+						}
+						else
+							alert('Usuario ya existe.')
+					})				
+				else
+					alert('llena todos los campos')				
+			})			

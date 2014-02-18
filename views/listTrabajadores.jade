@@ -1,0 +1,53 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptEmpresas.js')
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1='Trabajadores'		
+		.contenedorTableEmpresas
+			table(id="tableTrabajadores", class="display tableEmp table table-responsive")
+				thead
+					tr
+						th n
+						th Cédula
+						th Nombres
+						th Apellidos
+						th Teléfono
+						th Empresa
+						th Estado						
+						th O
+				tbody
+					each item in trab						
+						tr(class="#{item.state==true? '': 'danger'}")
+							td
+							td #{item.ced}
+							td #{item.first_name}
+							td #{item.last_name}
+							td #{item.phone}
+							td
+								-var ob = JSON.parse(item.rEmp_id)
+								span: a(href="/empresas/#{ob.id}") #{ob.name}
+							if(item.state == false)
+								td Eliminado
+							else
+								td Activo
+							td
+								.btn-group
+									a(class="btn btn-default btn-xs dropdown-toggle",data-toggle="dropdown") 
+										span.glyphicon.glyphicon-tasks
+									ul(role="menu").dropdown-menu
+										li: a(href="/trabajador/"+item._id) <span class="glyphicon glyphicon-edit"></span> Ver / Editar										
+										li(id="liDelete", data-id=""+item._id): a(href="#") <span class="glyphicon glyphicon-trash"></span> Eliminar
+
+			script.
+				var a = !{JSON.stringify(trab)};				
+				$("#liDelete a").on('click',function(e){
+					e.preventDefault()					
+					var id = $(this).parent().attr('data-id')
+					console.log(id)					
+					$.post('/trabajador/'+id+'/delete', '',function(e){						
+						document.location.reload(true)					
+					})
+				})			

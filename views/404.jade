@@ -1,0 +1,9 @@
+extends layout
+block content
+	h1(style='color:white')= title
+	if(!error)
+		p(style='color:#62D971') Duda, donde esta mi página?
+		img(src="http://cdn.alltheragefaces.com/img/faces/large/okay-okay-l.png", width="200")
+	else
+		p.errorServer=error
+	a(href='/', style="display:block") ir página principal!

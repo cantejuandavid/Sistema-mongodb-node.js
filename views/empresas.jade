@@ -1,0 +1,51 @@
+extends layout
+
+block content
+	script(src='/javascripts/scriptEmpresas.js')
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		h1='Empresas'
+		a(href="/empresas/create").btn.btn-primary Crear <i class="glyphicon glyphicon-plus"></i>
+		.contenedorTableEmpresas
+			table(id="tableEmpresas", class="display tableEmp table")
+				thead
+					tr
+						th n
+						th Nombre
+						th Telefono
+						th Direccion
+						th T
+						th Opciones
+				tbody
+					each item in emp
+						tr(class="#{item.state==true? '': 'danger'}")
+							td
+							td #{item.name}
+							td #{item.phone}
+							td #{item.address}
+							td #{item.numEmpleados}
+							td
+								.btn-group
+									button(class="btn btn-default btn-xs dropdown-toggle",data-toggle="dropdown") Opciones 
+										span.caret
+									ul(role="menu").dropdown-menu
+										li: a(href="../empresas/"+item._id) <span class="glyphicon glyphicon-log-in"></span> Ver
+										li: a(href="../empresas/"+item._id+"/edit") <span class="glyphicon glyphicon-edit"></span> Editar										
+										li(id="liDelete", data-id=""+item._id): a(href="") <span class="glyphicon glyphicon-trash"></span> Eliminar
+
+
+		script(type='text/javascript').
+			var l = !{JSON.stringify(emp)};		
+			console.log(l)	
+			$("#liDelete a").on('click',function(e){
+				e.preventDefault()
+				console.log('hice click')
+				var id = $(this).parent().attr('data-id')
+				console.log('../empresas/'+id+'/delete')
+				$.post('../empresas/'+id+'/delete', function(e){
+					console.log(e)
+					document.location.reload(true)					
+					})
+			})
+

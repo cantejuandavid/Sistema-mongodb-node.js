@@ -1,0 +1,95 @@
+doctype html
+html
+	head
+		title= "Creación - Empresa"
+		link(rel='stylesheet', href='/stylesheets/style.css')
+		link(rel='stylesheet', href='/librerias/bootstrap/css/bootstrap.css')
+		style.
+			body{
+			background-image: url('/images/noisy_net/noisy_net.png')}
+		script(src='/librerias/jquery/jquery.js')
+		script(src='/socket.io/socket.io.js')
+		script(src='../javascripts/layout.js')
+	body
+
+	block content	
+		#container.container.contenedor
+			h1='Creación de Empresa'
+			a(href="/empresas", class="btn btn-primary btn-xs") <i class="glyphicon glyphicon-circle-arrow-left"></i> Atrás
+			.row
+				.col-sm-6.col-md-offset-3
+					form(id="createEmpresa", method="post", action="/empresas/create",role="form").form-horizontal
+						.panel
+							.panel-heading Datos										
+							.panel-body
+								.form-group
+									label.col-sm-2.control-label Nit
+									.col-sm-10
+										input(type="text", placeholder="Nit", id="nitEmpresa", name="nit", required).form-control.input-sm
+								.form-group
+									label.col-sm-2.control-label Nombre
+									.col-sm-10
+										input(type="text", placeholder="Name", id="nameEmpresa", name="name", required).form-control.input-sm
+								.form-group
+									label.col-sm-2.control-label Teléfono
+									.col-sm-10
+										input(type="tel", placeholder="Number Phone", id="phoneEmpresa", name="phone", required).form-control.input-sm
+								.form-group
+									label.col-sm-2.control-label Dirección
+									.col-sm-10
+										input(type="text", placeholder="Address", id="addressEmpresa", name="address", required).form-control.input-sm
+								.form-group
+									label.col-sm-2.control-label E-mail
+									.col-sm-10
+										input(type="email", placeholder="Opcional", id="emailEmpresa", name="email", required).form-control.input-sm
+								.col-sm-4
+									.panel
+										.panel-heading Claves Aportes										
+										.panel-body
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Usuario", name="userNom").form-control.input-sm
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Contraseña", name="passNom").form-control.input-sm
+								.col-sm-4
+									.panel
+										.panel-heading Claves EPS										
+										.panel-body
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Usuario", name="userEps").form-control.input-sm
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Contraseña", name="passEps").form-control.input-sm
+								.col-sm-4
+									.panel
+										.panel-heading Claves ARL										
+										.panel-body
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Usuario", name="userArl").form-control.input-sm
+											.form-group
+												.col-sm-12
+													input(type="text", placeholder="Contraseña", name="passArl").form-control.input-sm
+						.form-group
+							.col-sm-offset-5.col-sm-10
+								button(type="submit").btn.btn-success <i class="glyphicon glyphicon-ok"></i> Crear
+			script.
+				if(localStorage['user']){
+					$('#createEmpresa').submit(function(e){
+						e.preventDefault();
+						if($("#nameEmpresa").val() != '' && $("#phoneEmpresa").val() != '' && $("#addressEmpresa").val() != ''){
+							var q = $(this).serialize();
+							$.post('/empresas/create',q, function(data){							
+								window.location = '../empresas/'
+							})
+						}
+						else{
+							alert('Por favor llene todos los campos')
+						}				
+					})
+				}
+				else{
+					window.location = '../'
+				}				

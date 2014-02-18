@@ -1,0 +1,17 @@
+body{font:14px "Lucida Grande",Helvetica,Arial,sans-serif;background:#272822;height:100%;min-height:100%;overflow-x:hidden;overflow-y:scroll}
+a{color:#009bd7}
+.contenedor{background:#fff;box-shadow:0 0 5px rgba(0,0,0,0.2);display:inline-block;margin-right:0 !important;margin-left:0 !important;min-height:667px;vertical-align:top;width:88% !important;max-width:100% !important;}
+.contenedor .login{margin-top:40px}
+.bloqueLeft{background:#fff;display:inline-block;height:100%;padding:5px;vertical-align:top;width:12%;}
+.bloqueLeft ul{padding:1px;}
+.bloqueLeft ul li:hover{background:#f3f3f1}
+.bloqueLeft ul li{display:block;padding:10px;}
+.bloqueLeft ul li a{font:normal normal 14px 'arial'}
+.contenedorTableEmpresas{width:100%;padding:10px;margin:0 auto}
+.tableEmp>tbody>tr>td{width:1px !important}
+.tableEmp>thead>tr>th{width:1px !important}
+.errorServer{color:#21852e;background:#fff;padding:10px;margin:30px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+@media (max-width: 992px){.container{display:block;width:100% !important}
+.bloqueLeft{display:block;width:100%;}
+.bloqueLeft ul li{display:inline-block !important}
+}

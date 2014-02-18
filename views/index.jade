@@ -1,0 +1,32 @@
+extends layout
+
+block content		
+	#container.container.contenedor
+		if(!user)
+			form(id='formLogin', name='login', action='/', method='post', class='row')
+				#contentFieldset.col-sm-4.col-md-offset-4.login
+					fieldset
+						legend Iniciar Sesión
+						p
+							label Usuario
+							input(type='text' ,name='user',id='user',required,autofocus).form-control
+						p
+							label Contraseña
+							input(type='password',name='pass',id='pass',required).form-control
+						p
+							input(type='hidden', name='param', value='login')
+						p
+							input(type='submit',value='Entrar', class='btn btn-primary')
+						if(error)
+							#alert.alert.alert-danger.show='Contraseña inválida'
+					a(href='createUser')='Registro'					
+		else
+			#contentLogin(style='text-align:center').col-sm-4.col-md-offset-4.well
+				h2=user.name					
+				img(src='/images/icons/#{user.tipo}.png',style='margin:0 auto').img-responsive
+				a(href='/empresas').btn.btn-primary='Entrar'
+				a(href='/').btn.btn-danger='Cerrar'
+				script(type='text/javascript').
+					var l = !{JSON.stringify(user)};				
+					localStorage.setItem('user', JSON.stringify({name:l.name,tipo:l.tipo,user:l.user}))					
+				script(src='/javascripts/scriptIndex.js')
