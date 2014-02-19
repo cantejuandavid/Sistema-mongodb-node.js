@@ -11,6 +11,8 @@ a{color:#009bd7}
 .tableEmp>tbody>tr>td{width:1px !important}
 .tableEmp>thead>tr>th{width:1px !important}
 .errorServer{color:#21852e;background:#fff;padding:10px;margin:30px;border-radius:4px;box-shadow:0 0 10px rgba(0,0,0,0.1)}
+.state{background:#0bd200;color:#fff;font-weight:700;padding:5px}
+.del{background:#f66}
 @media (max-width: 992px){.container{display:block;width:100% !important}
 .bloqueLeft{display:block;width:100%;}
 .bloqueLeft ul li{display:inline-block !important}

@@ -30,9 +30,9 @@ block content
 								-var ob = JSON.parse(item.rEmp_id)
 								span: a(href="/empresas/#{ob.id}") #{ob.name}
 							if(item.state == false)
-								td Eliminado
+								td: span.state.del Eliminado
 							else
-								td Activo
+								td: span.state Activo
 							td
 								.btn-group
 									a(class="btn btn-default btn-xs dropdown-toggle",data-toggle="dropdown") 
