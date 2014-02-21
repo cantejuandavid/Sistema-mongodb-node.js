@@ -9,6 +9,7 @@ var nib = require('nib');
 var stylus = require('stylus');
 var app = express();
 
+
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -17,7 +18,7 @@ app.use(stylus.middleware({
 	compile: compile
 }));
 app.use(express.favicon());
-//app.use(express.logger('dev'));
+app.use(express.logger('dev'));
 app.use(express.compress());
 app.use(express.methodOverride());
 app.use(express.urlencoded());
@@ -36,7 +37,7 @@ function compile(str, path, fn) {
 		.use(nib())		
 }
 
-app.use(function(error, req, res, next) {
+app.use(function(error, req, res, next) {	
 	res.status(500);
 	res.render('404.jade', {title:'500: Internal Server Error', error: error});
 });
@@ -44,12 +45,11 @@ app.use(function(error, req, res, next) {
 if ('development' == app.get('env')) {
   app.use(express.errorHandler());
 }
-
-var server = http.createServer(app).listen(app.get('port'), function(){
-  console.log('Servidor escuchando en puerto ' + app.get('port'));
+var server = http.createServer(app).listen(app.get('port'), function(){	
+	console.log('Servidor Express escuchando en puerto ' + app.get('port'));  
 });
 var clients = [];
-var io = require('socket.io').listen(server, {log: false});
+//var io = require('socket.io').listen(server, {log: false});
 
 
 app.get('/', routes.index)
@@ -70,6 +70,9 @@ app.post('/trabajador/:id/delete', Trabajador.deleteTrabajador)
 app.get('/trabajador', Trabajador.allTrabajador)
 app.post('/empresas/:id/delete', Empresa.deleteEmpresa)
 app.post('/trabajador/:id/listarEmpresas', Empresa.listarEmpresas)
+
+app.get('/consulta', Trabajador.formConsulta)
+app.post('/consulta', Trabajador.consulta)
 
 app.post('/', routes.login)
 
