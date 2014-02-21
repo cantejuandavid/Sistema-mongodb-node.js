@@ -1,0 +1,30 @@
+extends layout
+
+block content
+	script(src="/javascripts/scriptConsulta.js")
+	script(src='/librerias/DataTable/media/js/jquery.dataTables.js')
+	link(href="/librerias/DataTable/media/css/jquery.dataTables.css",rel="stylesheet", type="text/css")
+	#container.container.contenedor
+		.row
+			.consultaFormDiv
+				form(id="formConsulta")
+					fieldset
+						legend Consulta Trabajador
+						input(type="text", id="ced", placeholder="Cédula", autofocus).form-control
+						input(type="submit", value="Consultar").btn.btn-primary
+			.resultFormDiv
+				table#resulTable.table.display
+					thead
+						tr
+							th Nombre
+							th Apellidos
+							th Estado
+							th Teléfono
+							th Empresa
+					tbody
+						td#first_name
+						td#last_name
+						td#state
+						td#phone
+						td#empresa
+

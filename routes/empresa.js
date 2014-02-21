@@ -3,6 +3,7 @@ var Empresa = conex.Empresa
 
 exports.requestEmpresas = function(req, res){
 	Empresa.find({}, function(err, emps){
+		if (err) return handleError(err)
 		var empMap = {}
 		emps.forEach(function(emp){
 			empMap[emp._id] = emp
@@ -12,7 +13,9 @@ exports.requestEmpresas = function(req, res){
 }
 exports.createEmpresas = function(req, res){
 	Empresa.findOne({name:req.body.name}, function(err, emp){
+		if (err) return handleError(err);
 		if(!emp){
+			console.log(req.body)
 			var empresa = new Empresa(req.body)			
 			empresa.save(function(err){
 				if(!err)
@@ -26,10 +29,9 @@ exports.createEmpresas = function(req, res){
 	})
 }
 exports.viewEmpresa = function(req, res){	
-
 	var id = req.params.id
-		
 	Empresa.findById(id, function(err, emp){
+		if (err) return handleError(err);
 		if(emp){				
 			var Trabajador = conex.Trabajador		
 			Trabajador.find({rEmp_id: emp._id}, function(err, trab){
@@ -46,6 +48,7 @@ exports.viewEmpresa = function(req, res){
 }
 exports.listarEmpresas = function(req, res) {
 	Empresa.find({},'id name', function(err, emps){
+		if (err) return handleError(err);
 		var empMap = {}
 		emps.forEach(function(empss){
 			empMap[empss._id] = empss
@@ -56,28 +59,32 @@ exports.listarEmpresas = function(req, res) {
 exports.deleteEmpresa = function(req, res) {
 	var id = req.params.id
 	Empresa.findByIdAndUpdate(id, { $set: {state:false}}, function(err, doc){
-		if(err)
-			console.log(err)
-		else
-			res.send('exito')
+		if (err) return handleError(err);
+		res.send('exito')
 	})
 }
 exports.editEmpresa = function(req, res) {
 	var id = req.params.id
 	Empresa.findById(id, '', function(err, doc) {
-		if(doc)
+		if (err) return handleError(err);
+		if(doc){
 			res.render('editEmpresa',{title: 'Editar - '+doc.name, emp: doc})
+		}
 		else
 			res.render('404', {title: 'Esta empresa no existe'})
 	})
 }
 exports.saveEmpresa = function(req, res) {
-	var id = req.params.id	
+	var id = req.params.id
 	Empresa.findByIdAndUpdate(id, req.body, function(err, doc) {
+		if (err) return handleError(err);
 		if(doc){
-			res.send('saved')			
+			res.send('saved')
 		}
 		else
 			res.render('404', {title: 'Esta empresa no existe'})
 	})
+}
+function handleError(err) {
+	console.log(err)
 }
