@@ -1,5 +1,5 @@
-var conex = require('./conexion.js')
-var Empresa = conex.Empresa
+var requi = require('./conexion.js')
+var Empresa = requi.Empresa
 
 exports.requestEmpresas = function(req, res){
 	Empresa.find({}, function(err, emps){
@@ -14,14 +14,11 @@ exports.requestEmpresas = function(req, res){
 exports.createEmpresas = function(req, res){
 	Empresa.findOne({name:req.body.name}, function(err, emp){
 		if (err) return handleError(err);
-		if(!emp){
-			console.log(req.body)
+		if(!emp){			
 			var empresa = new Empresa(req.body)			
 			empresa.save(function(err){
-				if(!err)
-					res.send('exitoso')
-				else
-					console.log(err)
+				if (err) return handleError(err);
+				res.send('exitoso')
 			})
 		}
 		else
@@ -33,7 +30,7 @@ exports.viewEmpresa = function(req, res){
 	Empresa.findById(id, function(err, emp){
 		if (err) return handleError(err);
 		if(emp){				
-			var Trabajador = conex.Trabajador		
+			var Trabajador = requi.Trabajador		
 			Trabajador.find({rEmp_id: emp._id}, function(err, trab){
 				var trabMap = {}
 				trab.forEach(function(t){
@@ -63,13 +60,12 @@ exports.deleteEmpresa = function(req, res) {
 		res.send('exito')
 	})
 }
-exports.editEmpresa = function(req, res) {
+exports.showEditEmpresa = function(req, res) {
 	var id = req.params.id
-	Empresa.findById(id, '', function(err, doc) {
+	Empresa.findById(id, function(err, doc) {
 		if (err) return handleError(err);
-		if(doc){
-			res.render('editEmpresa',{title: 'Editar - '+doc.name, emp: doc})
-		}
+		if (doc)
+			res.render('editEmpresa',{title: 'Editar - ' + doc.name, emp: doc})
 		else
 			res.render('404', {title: 'Esta empresa no existe'})
 	})
@@ -78,9 +74,8 @@ exports.saveEmpresa = function(req, res) {
 	var id = req.params.id
 	Empresa.findByIdAndUpdate(id, req.body, function(err, doc) {
 		if (err) return handleError(err);
-		if(doc){
+		if(doc)
 			res.send('saved')
-		}
 		else
 			res.render('404', {title: 'Esta empresa no existe'})
 	})

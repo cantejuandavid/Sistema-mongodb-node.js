@@ -1,8 +1,8 @@
-var conex = require('./conexion.js')
-var User = conex.User
+var requi = require('./conexion.js')
+var User = requi.User
 
 exports.index = function(req, res){
-  res.render('index.jade', {title: 'Iniciar Sesión' });
+  res.render('index.jade', {title: 'Iniciar Sesión' });  
 }
 function encript(user, pass){
 	var crypto = require('crypto'),
@@ -16,18 +16,16 @@ exports.login = function(req, res){
 		passQ = req.body.pass,
 		pCrypto;	
 		pCrypto = encript(userQ,passQ);
-		User.findOne({user:userQ},onFind);	
-	function onFind(err, user){
-		if(user){
-			if(user.pass === pCrypto){					
-				res.render('index',{ user: {name:user.name,tipo:user.tipo,user:user.user}})
-			}
+		User.findOne({user:userQ},function (err, user){
+			if(user){
+				if(user.pass === pCrypto)				
+					res.render('index',{ user: {name:user.name,tipo:user.tipo,user:user.user}})
+				else
+					res.render('index',{error:'error'})
+			}	
 			else
 				res.render('index',{error:'error'})
-		}	
-		else
-			res.render('index',{error:'error'})
-	}
+		})
 }
 exports.registro = function(req, res){
 	var userQ = req.body.user,
@@ -36,14 +34,12 @@ exports.registro = function(req, res){
 		if(!user){
 			req.body.pass = encript(userQ, passQ)
 			var user = new User(req.body)
-		    user.save(onSaved)
-
-		    function onSaved (err) {
+		    user.save(function(err) {
 				if (!err)
 			        res.send('registro')
 				else
 					console.log(err)			
-			}
+			})
 		}
 		else
 			res.send('existe')

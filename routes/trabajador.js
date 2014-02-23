@@ -73,7 +73,6 @@ exports.viewTrabajador = function(req, res) {
 }
 exports.saveTrabajador = function(req, res) {
 	var idTrab = req.params.id
-
 	Trabajador.findById(idTrab, function(err, doc) {
 		var stateOld = doc.state
 		var empreOld = doc.rEmp_id

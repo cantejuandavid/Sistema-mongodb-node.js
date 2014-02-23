@@ -61,7 +61,7 @@ app.get('/empresas/:id/delete', Empresa.deleteEmpresa)
 
 app.get('/empresas/:id/createTrabajador', Trabajador.showCreateTrabajador)
 app.post('/empresas/:id/createTrabajador', Trabajador.createTrabajador)
-app.get('/empresas/:id/edit', Empresa.editEmpresa)
+app.get('/empresas/:id/edit', Empresa.showEditEmpresa)
 app.post('/empresas/create', Empresa.createEmpresas)
 app.post('/empresas/:id/save', Empresa.saveEmpresa)
 app.get('/trabajador/:id', Trabajador.viewTrabajador)
